@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
@@ -23,14 +23,17 @@
         h2 {
             text-align: center;
             color: #007bff;
+            font-family: 'Amiri', serif;
+            font-size: 24px;
         }
         .form-header {
             text-align: center;
             margin-bottom: 20px;
         }
-        .form-header img {
-            max-width: 100%;
-            height: auto;
+        .form-header h2 {
+            font-family: 'Amiri', serif;
+            font-size: 36px;
+            margin: 0;
         }
         label {
             font-weight: bold;
@@ -60,36 +63,43 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
-        .success-message, .search-message {
+        .success-message,
+        .loading-popup {
             display: none;
-            margin-top: 20px;
-            padding: 10px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .success-message {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
-            border-radius: 4px;
-            text-align: center;
         }
-        .search-container {
-            margin-top: 30px;
-            text-align: center;
+        .loading-popup {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
         }
-        .search-container input[type="text"] {
-            width: 70%;
+        .loading-popup::before {
+            content: '';
             display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #007bff;
+            border-radius: 50%;
+            border-top: 3px solid transparent;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+            margin-right: 10px;
         }
-        .search-container input[type="button"] {
-            width: 25%;
-            display: inline-block;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-container input[type="button"]:hover {
-            background-color: #218838;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .lang-toggle {
             margin-bottom: 20px;
@@ -119,36 +129,17 @@
             <!-- Arabic content -->
             <div class="arabic">
                 <div class="form-header">
-                    <img src="https://www8.0zz0.com/2024/08/28/16/775349027.png" alt="Form Header Image">
-                    <h2>استمارة تقديم وظيفة</h2>
+                    <h2>المتحدة للمقاولات</h2>
                 </div>
                 <form id="jobForm">
                     <label for="name">الاسم:</label>
                     <input type="text" id="name" name="name" required>
 
                     <label for="phone">رقم الجوال:</label>
-                    <input type="tel" id="phone" name="phone" pattern="^05\d{8}$" required placeholder="05XXXXXXXX">
-                    <small>يرجى إدخال رقم جوال سعودي يبدأ بـ 05 ويتكون من 10 أرقام.</small><br><br>
+                    <input type="tel" id="phone" name="phone" required placeholder="أدخل رقم الجوال">
 
                     <label for="email">البريد الإلكتروني:</label>
                     <input type="email" id="email" name="email" required>
-
-                    <label for="region">المنطقة:</label>
-                    <select id="region" name="region" required>
-                        <option value="">اختر المنطقة</option>
-                        <option value="الرياض">الرياض</option>
-                        <option value="مكة المكرمة">مكة المكرمة</option>
-                        <option value="المدينة المنورة">المدينة المنورة</option>
-                        <option value="القصيم">القصيم</option>
-                        <option value="الشرقية">الشرقية</option>
-                        <option value="عسير">عسير</option>
-                        <option value="تبوك">تبوك</option>
-                        <option value="حائل">حائل</option>
-                        <option value="الباحة">الباحة</option>
-                        <option value="الجوف">الجوف</option>
-                        <option value="جازان">جازان</option>
-                        <option value="نجران">نجران</option>
-                    </select>
 
                     <label for="profession">المهنة:</label>
                     <select id="profession" name="profession" required>
@@ -179,54 +170,28 @@
 
                     <input type="submit" value="إرسال">
                 </form>
+                <div class="loading-popup" id="loadingPopup">
+                    <div>يرجى الانتظار...</div>
+                </div>
                 <div class="success-message" id="successMessage">
                     تم تقديم الطلب بنجاح. سيتم التواصل معك في حال قبول طلبك. رقم طلبك هو <span id="requestNumber"></span>.
-                </div>
-
-                <div class="search-container">
-                    <h3>البحث برقم الطلب</h3>
-                    <input type="text" id="searchRequestNumber" placeholder="أدخل رقم الطلب">
-                    <input type="button" value="بحث" onclick="searchRequest()">
-                </div>
-                <div class="search-message" id="searchMessage">
-                    ما زال طلبك قيد المراجعة.
                 </div>
             </div>
 
             <!-- English content -->
             <div class="english" style="display: none;">
                 <div class="form-header">
-                    <img src="https://www8.0zz0.com/2024/08/28/16/775349027.png" alt="Form Header Image">
-                    <h2>Job Application Form</h2>
+                    <h2>Al-Mutahida for Contracting</h2>
                 </div>
-                <form id="jobForm">
+                <form id="jobFormEn">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
 
                     <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" name="phone" pattern="^\d{10}$" required placeholder="XXXXXXXXXX">
-                    <small>Please enter a 10-digit phone number.</small><br><br>
+                    <input type="tel" id="phone" name="phone" required placeholder="Enter phone number">
 
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required>
-
-                    <label for="region">Region:</label>
-                    <select id="region" name="region" required>
-                        <option value="">Select Region</option>
-                        <option value="Riyadh">Riyadh</option>
-                        <option value="Mecca">Mecca</option>
-                        <option value="Medina">Medina</option>
-                        <option value="Qassim">Qassim</option>
-                        <option value="Eastern Province">Eastern Province</option>
-                        <option value="Asir">
-<option value="Asir">Asir</option>
-                        <option value="Tabuk">Tabuk</option>
-                        <option value="Hail">Hail</option>
-                        <option value="Al-Baha">Al-Baha</option>
-                        <option value="Al-Jawf">Al-Jawf</option>
-                        <option value="Jazan">Jazan</option>
-                        <option value="Najran">Najran</option>
-                    </select>
 
                     <label for="profession">Profession:</label>
                     <select id="profession" name="profession" required>
@@ -257,17 +222,11 @@
 
                     <input type="submit" value="Submit">
                 </form>
-                <div class="success-message" id="successMessage">
-                    Your application has been submitted successfully. We will contact you if your application is accepted. Your request number is <span id="requestNumber"></span>.
+                <div class="loading-popup" id="loadingPopupEn">
+                    <div>Please wait...</div>
                 </div>
-
-                <div class="search-container">
-                    <h3>Search by Request Number</h3>
-                    <input type="text" id="searchRequestNumber" placeholder="Enter Request Number">
-                    <input type="button" value="Search" onclick="searchRequest()">
-                </div>
-                <div class="search-message" id="searchMessage">
-                    Your request is still under review.
+                <div class="success-message" id="<div class="success-message" id="successMessageEn">
+                    Your application has been submitted successfully. We will contact you if your application is accepted. Your request number is <span id="requestNumberEn"></span>.
                 </div>
             </div>
         </div>
@@ -278,33 +237,85 @@
             return Math.floor(Math.random() * 900000) + 100000;
         }
 
+        function showLoadingPopup() {
+            const lang = document.body.getAttribute('data-lang');
+            if (lang === 'ar') {
+                document.getElementById("loadingPopup").style.display = "block";
+            } else if (lang === 'en') {
+                document.getElementById("loadingPopupEn").style.display = "block";
+            }
+        }
+
+        function hideLoadingPopup() {
+            const lang = document.body.getAttribute('data-lang');
+            if (lang === 'ar') {
+                document.getElementById("loadingPopup").style.display = "none";
+            } else if (lang === 'en') {
+                document.getElementById("loadingPopupEn").style.display = "none";
+            }
+        }
+
+        function showSuccessMessage() {
+            const lang = document.body.getAttribute('data-lang');
+            if (lang === 'ar') {
+                document.getElementById("successMessage").style.display = "block";
+            } else if (lang === 'en') {
+                document.getElementById("successMessageEn").style.display = "block";
+            }
+        }
+
         document.getElementById("jobForm").addEventListener("submit", function(event) {
             event.preventDefault(); // Prevent the default form submission
 
-            const requestNumber = generateRequestNumber();
-            document.getElementById("requestNumber").textContent = requestNumber;
-            document.querySelector(".success-message").style.display = "block";
+            showLoadingPopup();
 
-            // Hide the form
-            document.getElementById("jobForm").style.display = "none";
+            // Simulate a delay (e.g., an AJAX request)
+            setTimeout(function() {
+                const requestNumber = generateRequestNumber();
+                document.getElementById("requestNumber").textContent = requestNumber;
+                
+                hideLoadingPopup();
+                showSuccessMessage();
+                
+                // Hide the form
+                document.getElementById("jobForm").style.display = "none";
+            }, 2000); // Adjust the delay as needed
         });
 
-        function searchRequest() {
-            const searchMessage = document.getElementById("searchMessage");
-            searchMessage.style.display = "block";
-        }
+        document.getElementById("jobFormEn").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            showLoadingPopup();
+
+            // Simulate a delay (e.g., an AJAX request)
+            setTimeout(function() {
+                const requestNumber = generateRequestNumber();
+                document.getElementById("requestNumberEn").textContent = requestNumber;
+                
+                hideLoadingPopup();
+                showSuccessMessage();
+                
+                // Hide the form
+                document.getElementById("jobFormEn").style.display = "none";
+            }, 2000); // Adjust the delay as needed
+        });
 
         function toggleLanguage(lang) {
             if (lang === 'ar') {
                 document.querySelector(".arabic").style.display = "block";
                 document.querySelector(".english").style.display = "none";
                 document.body.style.direction = "rtl";
+                document.body.setAttribute('data-lang', 'ar');
             } else if (lang === 'en') {
                 document.querySelector(".arabic").style.display = "none";
                 document.querySelector(".english").style.display = "block";
                 document.body.style.direction = "ltr";
+                document.body.setAttribute('data-lang', 'en');
             }
         }
+
+        // Initial language setup
+        toggleLanguage('ar'); // Default to Arabic
     </script>
 </body>
-</html
+</html>
